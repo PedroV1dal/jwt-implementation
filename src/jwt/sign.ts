@@ -25,12 +25,10 @@ export function sign(options: ISignOptions) {
   const base64EncodedHeader = Buffer.from(JSON.stringify(header)).toString(
     "base64url"
   );
-  console.log("header base64: ", base64EncodedHeader);
 
   const base64EncodedPayload = Buffer.from(JSON.stringify(payload)).toString(
     "base64url"
   );
-  console.log("payload base64: ", base64EncodedPayload);
 
   const hmac = createHmac("sha256", options.secret);
 
