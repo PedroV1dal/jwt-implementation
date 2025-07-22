@@ -12,7 +12,9 @@ const token = sign({
   secret,
 });
 
-verify({
+const decoded = verify({
   token,
   secret,
 });
+
+console.log(decoded);

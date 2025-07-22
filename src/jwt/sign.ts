@@ -19,8 +19,6 @@ export function sign({ exp, data, secret }: ISignOptions) {
     exp,
   };
 
-  console.log(payload);
-
   const base64EncodedHeader = Buffer.from(JSON.stringify(header)).toString(
     "base64url"
   );
