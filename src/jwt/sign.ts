@@ -1,12 +1,11 @@
-import { createHmac } from "crypto";
-
+import { generateSignature } from "./generateSignature";
 interface ISignOptions {
   exp: number;
   data: Record<string, any>;
   secret: string;
 }
 
-export function sign(options: ISignOptions) {
+export function sign({ exp, data, secret }: ISignOptions) {
   //jwt structure -> header, payload and signature
 
   const header = {
@@ -15,9 +14,9 @@ export function sign(options: ISignOptions) {
   };
 
   const payload = {
-    ...options.data,
+    data,
     iat: Date.now(),
-    exp: options.exp,
+    exp,
   };
 
   console.log(payload);
@@ -30,11 +29,11 @@ export function sign(options: ISignOptions) {
     "base64url"
   );
 
-  const hmac = createHmac("sha256", options.secret);
+  const signature = generateSignature({
+    secret,
+    header: base64EncodedHeader,
+    payload: base64EncodedPayload,
+  });
 
-  const signature = hmac
-    .update(`${base64EncodedHeader}.${base64EncodedPayload}`)
-    .digest("base64url");
-
-  console.log("signature: ", signature);
+  return `${base64EncodedHeader}.${base64EncodedPayload}.${signature}`;
 }
